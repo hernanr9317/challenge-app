@@ -17,7 +17,6 @@ export const FormLoginScreen = () => {
 	let data;
 
 	let response;
-
 	
     
     const handleSubmit = () => {

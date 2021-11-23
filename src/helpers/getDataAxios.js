@@ -3,7 +3,7 @@ export const getDataAxios = async(heroe) =>{
 
     const axios = require('axios').default;
 
-    const token = '10219527243587250';
+    const token = process.env.REACT_APP_API_TOKEN;
 
     const nombre = heroe;
 
