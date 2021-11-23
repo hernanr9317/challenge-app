@@ -2,7 +2,7 @@ import { useState, useEffect  } from 'react';
 import { CalculateMax } from './CalculateMax';
 
 
-export const CalculateTeam = ({team, removeStats, goods, bads,message}) => {
+export const CalculateTeam = ({team, removeStats, goods, bads}) => {
 
     
     const [intelligence, setIntelligence] = useState(0);
@@ -82,7 +82,7 @@ export const CalculateTeam = ({team, removeStats, goods, bads,message}) => {
     return (
             <div className="card text-dark">
             <div className="card-header">
-                <CalculateMax intelligence={ intelligence} strength={strength} speed={speed} durability={durability} power={power} combat={combat} message={message} />
+                <CalculateMax intelligence={ intelligence} strength={strength} speed={speed} durability={durability} power={power} combat={combat} />
                 <h6>Goods : {goods}/3 </h6> <h6>Bads : {bads}/3 </h6>
             </div>
             <div className="card-body">

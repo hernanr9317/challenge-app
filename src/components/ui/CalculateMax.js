@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 
-export const CalculateMax = ({intelligence, strength, speed, durability, power, combat, message}) => {
+export const CalculateMax = ({intelligence, strength, speed, durability, power, combat}) => {
 
 
     const int = document.querySelector("#root > div > div > div > div > div:nth-child(2) > div.card.text-dark > div.card-body > ul > li:nth-child(1)");
@@ -62,11 +62,6 @@ export const CalculateMax = ({intelligence, strength, speed, durability, power, 
     return (
         <>
             <h5 className="card-subtitle mb-2 text-muted">Team detail</h5>
-            { ( message !== "") &&
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {message}
-            </div>     
-            }
             <h3 className="card-title">Max stat : {nombreValorMax}</h3> 
         </>
     )

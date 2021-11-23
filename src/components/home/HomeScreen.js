@@ -3,6 +3,7 @@ import { Card } from '../ui/Card';
 import { getDataAxios } from './../../helpers/getDataAxios';
 import { CalculateTeam } from './../ui/CalculateTeam';
 import { Spinner } from 'react-bootstrap';
+import  Swal  from 'sweetalert2';
 
 
 export const HomeScreen = () => {
@@ -21,8 +22,6 @@ export const HomeScreen = () => {
     const [goods, setGoods] = useState(0);
 
     const [bads, setBads] = useState(0);
-
-    const [message, setMesagge] = useState("");
 
     
     
@@ -58,29 +57,27 @@ export const HomeScreen = () => {
         
       
         if( team.find(pjs => pjs.id === item.id) ){
-            setMesagge("The character is already on the list");
+            Swal.fire({
+                icon: 'info',
+                title:'The character is already on the list'
+            });  
             }else if( team.length >= 6){
-                setMesagge("Full team");          
+                Swal.fire({
+                    icon: 'info',
+                    title:'Full team'
+                });        
                         }else{
-
-                            if(goods1.length >= 3 ){
-                                setMesagge("Good characters full")
-                            }
-
-                            if(bads1.length >= 3 ){
-                                setMesagge("Bad characters full")
-                            }
 
                             if( (goods1.length < 3) && (item.biography.alignment === "good") ){
                                 setTeam([...team, item]);
-                                setMesagge("");
-                            }
-
-                        
-                            if( (bads1.length < 3) && (item.biography.alignment === "bad") ){
+                            }else if( (bads1.length < 3) && (item.biography.alignment === "bad") ){
                                 setTeam([...team, item]);
-                                setMesagge("");
-                            }    
+                            }else {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title:'Good or Bad characters full'
+                                });
+                            }
 
                             if( (goods1.length < 3) && (item.biography.alignment === "good") ){ setGoods(goods1.length + 1); }
 
@@ -172,7 +169,7 @@ export const HomeScreen = () => {
                     <div className="col">
                         <h2> My Team </h2>
 
-                        <CalculateTeam team={team} removeStats={removeStats} goods={goods} bads={bads} message={message} />
+                        <CalculateTeam team={team} removeStats={removeStats} goods={goods} bads={bads}/>
                         
                         <div className="row row-cols-1 row-cols-sm-2 m-auto">
 
