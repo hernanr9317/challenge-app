@@ -1,50 +1,56 @@
-import { React, useState } from 'react';
+import { React, useCallback, useState } from 'react';
 import { Card } from '../ui/Card';
 import { getDataAxios } from './../../helpers/getDataAxios';
 import { CalculateTeam } from './../ui/CalculateTeam';
 import { Spinner } from 'react-bootstrap';
 import  Swal  from 'sweetalert2';
+import { debounce } from './../../helpers/debounce';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadingFalse, loadingTrue } from './../../actions/heroesSearch';
+import { addTeamGoods, addTeamBads, removeTeamGoods, removeTeamBads } from './../../actions/team';
 
 
 export const HomeScreen = () => {
 
+    const dispatch = useDispatch();
+    const {loading} = useSelector( state => state.heroesSearch );
+    const {goods: goodslenght, bads: badslenght} = useSelector( state => state.team );
+
+
     const [heroes, setHeroes] = useState([]);
 
     const [team, setTeam] = useState([]);
-
-    const [checking, setChecking] = useState(false);
-    
-     
-    const [inputValue, setInputValue] = useState('');
-    
+         
     const [removeStats, setRemoveStats] = useState(0);
 
-    const [goods, setGoods] = useState(0);
-
-    const [bads, setBads] = useState(0);
-
     
+
+    const handleChange = (e) => {
+
+        const {value} = e.target;
+
+        if(value.length > 1){
+
+            // setChecking(true);
+            dispatch( loadingTrue() )
+
+            getDataAxios(value).then((data) => {
+                
+                // setChecking(false);
+                dispatch( loadingFalse() )
     
-    const handleInputChange = ( e ) => {
-        setInputValue( e.target.value );
+                setHeroes(data);
+    
+           });
+        }else{
+            setHeroes([]);
+        }
     }
     
-    
-    const handleSubmit = (e) => {
-    
-        setChecking(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const optimisedVersion = useCallback( debounce(handleChange, 500), [] );
 
-        e.preventDefault();
-    
-        getDataAxios(inputValue).then((data) => {
-            
-            setChecking(false);
 
-            setHeroes(data);
-
-       });
-
-    }
     
     
     const handleAdd = (e,item) => {
@@ -79,10 +85,10 @@ export const HomeScreen = () => {
                                 });
                             }
 
-                            if( (goods1.length < 3) && (item.biography.alignment === "good") ){ setGoods(goods1.length + 1); }
+                            if( (goods1.length < 3) && (item.biography.alignment === "good") ){ dispatch( addTeamGoods() ) }
 
                             
-                            if( (bads1.length < 3) && (item.biography.alignment === "bad") ){ setBads(bads1.length + 1); }
+                            if( (bads1.length < 3) && (item.biography.alignment === "bad") ){ dispatch( addTeamBads() ) }
         }
          
     }
@@ -99,9 +105,9 @@ export const HomeScreen = () => {
     
         setTeam(filtredData);
 
-        if( removeStats.biography.alignment === "good"){ setGoods(goods - 1); }
+        if( removeStats.biography.alignment === "good"){  dispatch( removeTeamGoods() ) }
                   
-        if( removeStats.biography.alignment === "bad"){ setBads(bads - 1); }
+        if( removeStats.biography.alignment === "bad"){  dispatch( removeTeamBads() )}
 
     }
 
@@ -116,31 +122,31 @@ export const HomeScreen = () => {
                 <div className="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
     
                     <div className="col">
-                    <h2>Character search </h2>
-                        <form onSubmit={ handleSubmit }
-                        className="d-grid gap-2">
-                            <input
-                                className="form-control" 
-                                type="text"
-                                value={ inputValue }
-                                onChange={ handleInputChange }
+
+                    <div className="d-flex align-items-center">
+                        <h2>Character search </h2>
+                        { loading && 
+                            
+                        <div className="ms-auto">
+                            <strong className="m-2">Loading...</strong>
+                            <Spinner animation="border" variant="light" className="me-1 float-right"/>
+                        </div>
+         
+                        }
+                        
+                    </div>
+                        
+    
+                            <input 
+                                type={`text`}
+                                name={'search'}
+                                placeholder={'Search Something...'}
+                                className="form-control"
+                                autoComplete = "off"
+                                onChange={ optimisedVersion }
                             />
-                            <button
-                                type="submit" className="btn btn-primary" 
-                                onClick={ handleSubmit}
-                            >
-                                    Search
-                            </button>
-                            { checking && 
                             
-                                <div className="display-flex">
-                                    <Spinner animation="border" variant="light" className="m-1"/>
-                                    <Spinner animation="grow" variant="light" className="m-1"/>
-                                    <Spinner animation="grow" variant="light" className="m-1"/>
-                                </div>                  
-                            }
-                            
-                        </form>
+                 
                     
                         <div className="row row-cols-1 row-cols-sm-2 m-auto">
                             { (heroes) && heroes.map( item =>(     
@@ -169,7 +175,7 @@ export const HomeScreen = () => {
                     <div className="col">
                         <h2> My Team </h2>
 
-                        <CalculateTeam team={team} removeStats={removeStats} goods={goods} bads={bads}/>
+                        <CalculateTeam team={team} removeStats={removeStats} goods={goodslenght} bads={badslenght}/>
                         
                         <div className="row row-cols-1 row-cols-sm-2 m-auto">
 
