@@ -1,7 +1,6 @@
 import { React, useCallback, useState } from 'react';
 import { Card } from '../ui/Card';
 import { getDataAxios } from './../../helpers/getDataAxios';
-import { Spinner } from 'react-bootstrap';
 import  Swal  from 'sweetalert2';
 import { debounce } from './../../helpers/debounce';
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,6 +90,8 @@ export const HomeScreen = () => {
 
     
         return(
+            <>
+            
             <div className="container animate__animated animate__bounce animate__fadeIn">
                 
                 <h1>Build team</h1>
@@ -99,29 +100,28 @@ export const HomeScreen = () => {
                 <div className="row ">
     
                     <div className="col">
-
                     <div className="d-flex align-items-center">
                         <h2>Character search </h2>
-                        { loading && 
-                            
-                        <div className="ms-auto">
-                            <strong className="m-2">Loading...</strong>
-                            <Spinner animation="border" variant="light" className="me-1 float-right"/>
-                        </div>
-         
-                        }
                         
                     </div>
                         
+                    <div className="inputcontainer">
+                        <input 
+                            type="text"
+                            name={'search'} 
+                            placeholder="Search Something..."
+                            className="form-control"
+                            autoComplete = "off"
+                            onChange={ optimisedVersion }    
+                            />
+                        { loading && 
+                        <div className="icon-container">
+                            <span className="text-dark me-2">Loading</span>
+                            <i className="loader"></i>
+                        </div>    
+                        }    
+                     </div>
     
-                            <input 
-                                type={`text`}
-                                name={'search'}
-                                placeholder={'Search Something...'}
-                                className="form-control"
-                                autoComplete = "off"
-                                onChange={ optimisedVersion }
-                            />                           
 
                             <div className="card-group">
                             { (heroes) && heroes.map( item =>(     
@@ -142,6 +142,7 @@ export const HomeScreen = () => {
     
                 </div>
             </div>
+            </>
         ) 
 
 }
