@@ -4,7 +4,6 @@ import { types } from './../types/types';
 import { AuthContext } from './../auth/AuthContext';
 import { postFormAxios } from './../../helpers/postFormAxios';
 import Swal from 'sweetalert2';
-import { Spinner } from 'react-bootstrap';
 
 
 export const FormLoginScreen = () => {
@@ -77,12 +76,12 @@ export const FormLoginScreen = () => {
 
 
     return (
-        <div className="Loggin animate__animated animate__bounce animate__fadeIn">
-            <div className="container text-dark">
+        <>
+        <div className="container Loggin animate__animated animate__bounce animate__fadeIn mt-5" style={{maxWidth: 400}}>
                 <div className="row justify-content-md-center">
-                    <div className="card mt-5" style={{width: 450}}>
-                        <div className="card-body"></div>
-                            <h1>Hero Teams App</h1>
+                            <h1 className="text-light">Hero Teams App</h1>
+                            <hr/>
+                            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
                             <Formik
                             initialValues={{ email: "challenge@alkemy.org", password: "react", }}
                             onSubmit={async (e) => {
@@ -110,23 +109,30 @@ export const FormLoginScreen = () => {
                                         type="password" 
                                         className="form-control"
                                     />
+                                    
                             </div>
-                                <button type="submit" className="btn btn-primary w-100 m-1">Login</button> 
+
+                            { (!checking) && 
+                            
+                            <button className="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+                            
+                            }
+                                             
 
                                 { (checking) && 
-                                    <Spinner animation="border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </Spinner>
+                                    <button className="w-100 btn btn-lg btn-primary" type="button" disabled>
+                                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
                                 }   
-                            </Form>
-
-						
-                            </Formik>
-                        </div>
-                    </div>      
-                </div>
+                            </Form>					
+                            </Formik>            
+                    </div>        
             </div>
 
-    );
+
+            </>
+
+    )
 }
  

@@ -101,7 +101,8 @@ export const HomeScreen = () => {
     
                     <div className="col">
                     <div className="d-flex align-items-center">
-                        <h2>Character search </h2>
+                        <h4>Character search </h4>
+                        <h5 className="ms-auto">Team {teamValues.length}/6</h5>
                         
                     </div>
                         
