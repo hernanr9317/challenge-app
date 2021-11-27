@@ -4,6 +4,8 @@ import { types } from './../types/types';
 import { AuthContext } from './../auth/AuthContext';
 import { postFormAxios } from './../../helpers/postFormAxios';
 import Swal from 'sweetalert2';
+import heroicon from '../../assets/heroicon.jpg'
+
 
 
 export const FormLoginScreen = () => {
@@ -77,11 +79,12 @@ export const FormLoginScreen = () => {
 
     return (
         <>
-        <div className="container Loggin animate__animated animate__bounce animate__fadeIn mt-5" style={{maxWidth: 400}}>
+        <div className="form-signin Loggin animate__animated animate__bounce animate__fadeIn mt-5">
                 <div className="row justify-content-md-center">
-                            <h1 className="text-light">Hero Teams App</h1>
+                            <h1 className="text-light text-center">Hero Teams App</h1>
                             <hr/>
-                            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+                            <img className="mx-auto d-block rounded-circle" src={heroicon} alt="" style={{width: 200}}/>
+                            <h1 className="h3 mb-3 mt-3 fw-normal">Please sign in</h1>
                             <Formik
                             initialValues={{ email: "challenge@alkemy.org", password: "react", }}
                             onSubmit={async (e) => {
@@ -94,7 +97,8 @@ export const FormLoginScreen = () => {
                             > 							
 
                             <Form>
-                            <div className="mb-3">
+                            
+                            <div className="mb-3 ">
                                 <label htmlFor="email" className="form-label">Email address</label>
                                     <Field 
                                         name="email" 
