@@ -9,5 +9,7 @@ export const types = {
     addTeamGoods: '[team] addTeamGoods',
     addTeamBads: '[team] addTeamBads',
     removeTeamGoods: '[team] removeTeamGoods',
-    removeTeamBads: '[team] removeTeamBads'
+    removeTeamBads: '[team] removeTeamBads',
+    setTeam: '[team] setTeam',
+    removeTeam: '[team] removeTeam'
 }

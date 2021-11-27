@@ -5,7 +5,7 @@ import { types } from './../components/types/types';
 //     bads: 0
 // }
 
-export const teamReducer = ( state={goods:0, bads:0}, action ) => {
+export const teamReducer = ( state={team: [], goods:0, bads:0}, action ) => {
 
     switch (action.type) {
         case types.addTeamGoods:
@@ -31,6 +31,18 @@ export const teamReducer = ( state={goods:0, bads:0}, action ) => {
                     ...state,
                     bads: state.bads - 1
                 }
+
+            case types.setTeam:
+                return {
+                    ...state,
+                    team: [...state.team, action.payload]
+                }
+            
+            case types.removeTeam:
+                return {
+                    ...state,
+                    team: action.payload
+                }    
 
         default:
             return state;

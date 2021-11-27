@@ -1,27 +1,23 @@
 import { React, useCallback, useState } from 'react';
 import { Card } from '../ui/Card';
 import { getDataAxios } from './../../helpers/getDataAxios';
-import { CalculateTeam } from './../ui/CalculateTeam';
 import { Spinner } from 'react-bootstrap';
 import  Swal  from 'sweetalert2';
 import { debounce } from './../../helpers/debounce';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadingFalse, loadingTrue } from './../../actions/heroesSearch';
-import { addTeamGoods, addTeamBads, removeTeamGoods, removeTeamBads } from './../../actions/team';
+import { addTeamGoods, addTeamBads, setTeam } from './../../actions/team';
 
 
 export const HomeScreen = () => {
 
     const dispatch = useDispatch();
     const {loading} = useSelector( state => state.heroesSearch );
-    const {goods: goodslenght, bads: badslenght} = useSelector( state => state.team );
+    const { team: teamValues} = useSelector( state => state.team );
+
 
 
     const [heroes, setHeroes] = useState([]);
-
-    const [team, setTeam] = useState([]);
-         
-    const [removeStats, setRemoveStats] = useState(0);
 
     
 
@@ -31,12 +27,10 @@ export const HomeScreen = () => {
 
         if(value.length > 1){
 
-            // setChecking(true);
             dispatch( loadingTrue() )
 
             getDataAxios(value).then((data) => {
                 
-                // setChecking(false);
                 dispatch( loadingFalse() )
     
                 setHeroes(data);
@@ -57,17 +51,17 @@ export const HomeScreen = () => {
         
         e.preventDefault();
         
-        const goods1 = team.filter( pjs => pjs.biography.alignment === "good"); 
+        const goods1 = teamValues.filter( pjs => pjs.biography.alignment === "good"); 
        
-        const bads1 = team.filter( pjs => pjs.biography.alignment === "bad");
+        const bads1 = teamValues.filter( pjs => pjs.biography.alignment === "bad");
         
       
-        if( team.find(pjs => pjs.id === item.id) ){
+        if( teamValues.find(pjs => pjs.id === item.id) ){
             Swal.fire({
                 icon: 'info',
                 title:'The character is already on the list'
             });  
-            }else if( team.length >= 6){
+            }else if( teamValues.length >= 6){
                 Swal.fire({
                     icon: 'info',
                     title:'Full team'
@@ -75,9 +69,11 @@ export const HomeScreen = () => {
                         }else{
 
                             if( (goods1.length < 3) && (item.biography.alignment === "good") ){
-                                setTeam([...team, item]);
+                                // setTeam1([...team, item]);
+                                dispatch( setTeam(item) )
                             }else if( (bads1.length < 3) && (item.biography.alignment === "bad") ){
-                                setTeam([...team, item]);
+                                // setTeam1([...team, item]);
+                                dispatch( setTeam(item) )
                             }else {
                                 Swal.fire({
                                     icon: 'info',
@@ -90,27 +86,8 @@ export const HomeScreen = () => {
                             
                             if( (bads1.length < 3) && (item.biography.alignment === "bad") ){ dispatch( addTeamBads() ) }
         }
-         
     }
     
-    const handleRemove = (e,id) => {
-    
-        e.preventDefault();
-
-        const removeStats = team.find( item => item.id === id);
-
-        setRemoveStats( removeStats.powerstats );
-    
-        const filtredData = team.filter(item => item.id !== id);
-    
-        setTeam(filtredData);
-
-        if( removeStats.biography.alignment === "good"){  dispatch( removeTeamGoods() ) }
-                  
-        if( removeStats.biography.alignment === "bad"){  dispatch( removeTeamBads() )}
-
-    }
-
 
     
         return(
@@ -171,30 +148,6 @@ export const HomeScreen = () => {
                             }
 
                     </div>
-    
-                    <div className="col">
-                        <h2> My Team </h2>
-
-                        <CalculateTeam team={team} removeStats={removeStats} goods={goodslenght} bads={badslenght}/>
-                        
-                        <div className="row row-cols-1 row-cols-sm-2 m-auto">
-
-                                { (team) && team.map( item =>(
-                                    <div className="col-md-auto m-2" key={item.id}>
-                                            <Card {...item}/>
-                                            <button
-                                                style={{width: 200}}
-                                                type="button" 
-                                                className="btn btn-outline-danger btn-sm mt-1" 
-                                                onClick={ (e) => handleRemove(e, item.id)}
-                                            >
-                                                Remove
-                                            </button>
-                                    </div>      
-                                ))}
-                        </div>
-                    </div>
-    
     
                 </div>
             </div>

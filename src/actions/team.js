@@ -22,4 +22,13 @@ export const removeTeamBads = () => ({
     type: types.removeTeamBads
 });
 
+export const setTeam = ( character ) => ({
+    type: types.setTeam,
+    payload: character
+});
+
+export const removeTeam = ( filtredData ) => ({
+    type: types.removeTeam,
+    payload: filtredData
+});
   
