@@ -23,7 +23,7 @@ const handleChange = (e) => {
                 <img src={image.url}  className="img-fluid rounded-start" alt="..."/>
                 </div>
                 <div className="col-md-8">
-                <div className="card-body">
+                <div className="card-body m-0">
 
                     { (bandera === false) &&  
                     
