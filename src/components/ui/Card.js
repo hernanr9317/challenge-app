@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const Card = ({image, name, powerstats, appearance,work,biography}) => {
+export const Card = ({image, name, powerstats, appearance,work,biography, handleAdd,handleRemove,item, flag}) => {
 
 const [bandera, setBandera] = useState(false) 
 
@@ -13,65 +13,78 @@ const handleChange = (e) => {
 }
 
     return (
-        <div className="card text-center text-dark animate__animated animate__fadeIn" style={{width: 200}}>
-        { (bandera === false) && 
-            <img src={image.url} className="card-img-top animate__animated animate__flipInY" alt="..."/>
-         }
-        <div className="card-body">
-            <h5 className="card-title">{name}</h5>
-            <hr />
+        <>
+            <div className="card mb-3  text-dark animate__animated animate__fadeIn" style={{maxWidth: 540}}>
+            <div className="card-header">
+                <h5 className="card-title">{name}</h5>
+            </div>
+            <div className="row g-0">
+                <div className="col-md-4">
+                <img src={image.url}  className="img-fluid rounded-start" alt="..."/>
+                </div>
+                <div className="col-md-8">
+                <div className="card-body">
 
-            { (bandera === false) &&  
-                <ul className="list-group list-group-flush animate__animated animate__flipInY">
-                    <li className="list-group-item">
-                    Intelligence : {powerstats.intelligence}
-                    </li>
-                    <li className="list-group-item">
-                    Strength : {powerstats.strength}
-                    </li>
-                    <li className="list-group-item">
-                    Speed : {powerstats.speed}
-                    </li>
-                    <li className="list-group-item">
-                    Durability : {powerstats.durability}
-                    </li>
-                    <li className="list-group-item">
-                    Power : {powerstats.power}
-                    </li>
-                    <li className="list-group-item">
-                    Combat : {powerstats.combat}
-                    </li>
-                </ul>
-            }
+                    { (bandera === false) &&  
+                    
+                        <div className="container animate__animated animate__fadeIn">
+                        <div className="row">
+                            <div className="col">
+                            <strong>Intelligence</strong> <p>{powerstats.intelligence}</p>
+                            </div>
+                            <div className="col">
+                            <strong>Strength</strong> <p>{powerstats.strength}</p>
+                            </div>
+                            <div className="col">
+                            <strong>Speed</strong> <p>{powerstats.speed}</p>
+                            </div>
+                            <div className="col">
+                            <strong>Durability</strong> <p>{powerstats.durability}</p>
+                            </div>
+                            <div className="col">
+                            <strong>Power</strong> <p>{powerstats.power}</p>
+                            </div>
+                            <div className="col">
+                            <strong>Combat</strong> <p>{powerstats.combat}</p>
+                            </div>
+                        </div>
+                        </div>
+                    }
 
-            { (bandera === true) && 
-                <ul className="list-group list-group-flush animate__animated animate__flipInY">
-                    <li className="list-group-item">
-                    Height :  { (appearance.height[0] === '-' ) 
+                    { (bandera === true) && 
+                    
+                        <div className="container animate__animated animate__fadeIn">
+                        <div className="row">
+                            <div className="col">
+                            <strong>Height</strong> <p>{ (appearance.height[0] === '-' ) 
                                 ?  'unknown' 
                                 : `${appearance.height[0]} / ${appearance.height[1]}`
-                                }
-                    </li>
-                    <li className="list-group-item">
-                    Weight :  { (appearance.weight[0] === '- lb' ) 
+                                }</p>
+                            </div>
+                            <div className="col">
+                            <strong>Weight</strong> <p> { (appearance.weight[0] === '- lb' ) 
                                 ?  'unknown' 
                                 : `${appearance.weight[0]} / ${appearance.weight[1]}`
-                                }
-                    </li>
-                    <li className="list-group-item">
-                    Aliases :  {  `${(Object.values(biography.aliases))}` }
-                    </li>
-                    <li className="list-group-item">
-                    Work : {work.occupation} 
-                    </li>
-                    <li className="list-group-item">
-                    Eye-color : {appearance['eye-color']}
-                    </li>
-                    <li className="list-group-item">
-                    Hair-color : {appearance['hair-color']}
-                    </li>
-                </ul>
-            }
+                                }</p>
+                            </div>
+                            <div className="col">
+                            <strong>Aliases</strong> <p>{  `${(Object.values(biography.aliases))}` }</p>
+                            </div>
+                            <div className="col">
+                            <strong>Work</strong> <p>{work.occupation} </p>
+                            </div>
+                            <div className="col">
+                            <strong>Eye-color</strong> <p>{appearance['eye-color']}</p>
+                            </div>
+                            <div className="col">
+                            <strong>Hair-color</strong> <p> {appearance['hair-color']}</p>
+                            </div>
+                        </div>
+                        </div>
+                    
+                    }                  
+
+            {/* MORE DETAILS AND RETURN BUTTONS */}
 
             { (bandera === false) && 
                 <button 
@@ -92,8 +105,37 @@ const handleChange = (e) => {
                 </button>     
             }
 
+        {/* ADD OR REMOVE BUTTONS  */}
 
-        </div>
-        </div>
+            { (flag === "add") &&
+
+                <button
+                    type="button" 
+                    className="btn btn-warning m-1" 
+                    onClick={ (e) => handleAdd(e, item) }
+                >
+                    Add
+                </button>
+            }
+
+            { (flag === "remove") && 
+            
+                <button
+                    type="button" 
+                    className="btn btn-danger m-1" 
+                    onClick={ (e) => handleRemove(e, item.id)}
+                >
+                    Remove
+                </button>
+            
+            }
+                                         
+                </div>
+                </div>
+                
+            </div>
+            </div>
+
+        </>
     )
 }

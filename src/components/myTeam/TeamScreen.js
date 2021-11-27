@@ -50,19 +50,11 @@ export const TeamScreen = () => {
 
                         <CalculateTeam removeStats={removeStats} goods={goodslenght} bads={badslenght}/>
                         
-                        <div className="row row-cols-1 row-cols-sm-2 m-auto">
+                        <div className="card-group">
 
                                 { (teamValues) && teamValues.map( item =>(
                                     <div className="col-md-auto m-2" key={item.id}>
-                                            <Card {...item}/>
-                                            <button
-                                                style={{width: 200}}
-                                                type="button" 
-                                                className="btn btn-outline-danger btn-sm mt-1" 
-                                                onClick={ (e) => handleRemove(e, item.id)}
-                                            >
-                                                Remove
-                                            </button>
+                                            <Card {...item} handleRemove={handleRemove} item={item} flag="remove"/>
                                     </div>      
                                 ))}
                         </div>

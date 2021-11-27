@@ -96,7 +96,7 @@ export const HomeScreen = () => {
                 <h1>Build team</h1>
                 <hr />
                 
-                <div className="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
+                <div className="row ">
     
                     <div className="col">
 
@@ -121,22 +121,12 @@ export const HomeScreen = () => {
                                 className="form-control"
                                 autoComplete = "off"
                                 onChange={ optimisedVersion }
-                            />
-                            
-                 
-                    
-                        <div className="row row-cols-1 row-cols-sm-2 m-auto">
+                            />                           
+
+                            <div className="card-group">
                             { (heroes) && heroes.map( item =>(     
                                 <div className="col-md-auto m-2" key={item.id}>
-                                        <Card {...item}/>  
-                                        <button
-                                            style={{width: 200}}
-                                            type="button" 
-                                            className="btn btn-outline-primary btn-sm mt-1" 
-                                            onClick={ (e) => handleAdd(e, item) }
-                                        >
-                                            Add
-                                        </button>
+                                        <Card {...item} handleAdd={handleAdd} item={item} flag={"add"}/>  
                                 </div>
                             ))}       
                         </div> 
@@ -146,6 +136,7 @@ export const HomeScreen = () => {
                                         Characters not found.
                                 </div>
                             }
+
 
                     </div>
     
