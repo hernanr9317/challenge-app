@@ -124,9 +124,12 @@ export const FormLoginScreen = () => {
                                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                         Loading...
                                     </button>
-                                }   
+                                }
+
+                                <p className="mt-5 mb-3 text-muted text-center">&copy; By Hernan Rascon 2021</p>     
                             </Form>					
-                            </Formik>            
+                            </Formik>
+                                      
                     </div>        
             </div>
 
